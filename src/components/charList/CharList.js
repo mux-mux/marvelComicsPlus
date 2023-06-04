@@ -30,9 +30,9 @@ const CharList = (props) => {
       ended = true;
     }
 
-    setCharList((charList) => [...charList, ...newcharList]);
+    setCharList([...charList, ...newcharList]);
     setNewItemLoading(false);
-    setOffset((offset) => offset + 9);
+    setOffset(offset + 9);
     setCharEnded(ended);
   };
 
@@ -45,7 +45,8 @@ const CharList = (props) => {
   };
 
   function renderItems(arr) {
-    const items = arr.map((item, i) => {
+    console.log('render');
+    const elems = arr.map((item, i) => {
       let imgStyle = { objectFit: 'cover' };
       if (
         item.thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
@@ -54,11 +55,10 @@ const CharList = (props) => {
       }
 
       return (
-        <CSSTransition timeout={500} classNames="char__item">
+        <CSSTransition key={item.id} timeout={500} classNames="char__item">
           <li
             className="char__item"
             tabIndex={i}
-            key={item.id}
             ref={(el) => (itemRefs.current[i] = el)}
             onClick={() => {
               props.onCharSelected(item.id);
@@ -80,7 +80,7 @@ const CharList = (props) => {
 
     return (
       <ul className="char__grid">
-        <TransitionGroup component={null}>{items}</TransitionGroup>
+        <TransitionGroup component={null}>{elems}</TransitionGroup>
       </ul>
     );
   }
